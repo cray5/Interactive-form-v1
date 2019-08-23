@@ -8,12 +8,17 @@
 // $(document).ready() is used to wrap the script, so that the javascript is executed only when the document is completely loaded in the DOM.
 
 $(document).ready(function () {
-    $("#name").focus(); // bring the focus i.e the text cursor is on the Name field as soon the script runs 
+
+    /*-----------------------------"Name" Text input section-----------------------------*/
+    $("#name").focus(); // bring the focus i.e the text cursor on the Name field as soon the script is executed 
 
     $("#other-title").hide(); // the text input corresponding to the 'other' option in the Job Role dropdown is hidden
+    /*-----------------------------"Name" Text input section-----------------------------*/
 
-    /* A conditional switch statement is used to display the text input with id='other-title', 
-    if the 'other' job option is selected in the job role the text input is displayed other wise it is hidden.*/
+    /*-----------------------------"Job Role" dropdown and Text input section-----------------------------*/
+
+    // A conditional switch statement is used to display the text input with id='other-title', 
+    // if the 'other' job option is selected in the job role the text input is displayed other wise it is hidden.
 
     $('#title').change(function (event) {
         switch (this.value === 'other') {
@@ -27,7 +32,9 @@ $(document).ready(function () {
                 $("#other-title").hide()
         }
     });
+    /*-----------------------------"Job Role" dropdown and Text input section-----------------------------*/
 
+    /*-----------------------------"T-Shirt Info" dropdown section-----------------------------*/
 
     $("#design option")
         .eq(0) //hides the 'Select Theme' option in the "Design" dropdown
@@ -54,6 +61,8 @@ $(document).ready(function () {
                 .attr("disabled", isDisabled); // 4) isDisabled: sets the isDisabled attribute(values: true/false).
             return option;
         };
+
+
         switch (this.value === "js puns") {
             case true: //conditional switch statement to check the value in the "Design" dropdown which is selected by the user
                 optionDisplayer(0, false, false, true); //   if true:-
@@ -77,5 +86,36 @@ $(document).ready(function () {
                 optionDisplayer(0, true, false) //default state.
 
         }
+
     });
+    /*-----------------------------"T-Shirt Info" dropdown section-----------------------------*/
+
+    /*-----------------------------"Register for Activities" checkbox section-----------------------------*/
+    // initializing variable totalActivityCost = 0
+    let totalActivityCost = 0;
+
+    // appending totalActivityCost to activities .i.e "Register for Activities" fieldset inside a <span> element with id="total-cost"
+    $('.activities').append(`<span id="total-cost">Total: $${totalActivityCost}</span>`); //`<span id="total-cost">${totalActivityCost}</span>`
+
+    // attaching a change event listener to "Register for Activities" fieldset.
+
+    $('.activities').on('change', function (event) {
+        const isClicked = event.target; //to get the element where the change has happened.
+        const $activityCost = $(isClicked) //to find the activity cost of the clicked element.
+            .attr('data-cost') //to find the `data-cost` attribute of the clicked element.
+            .replace(/[^0-9.-]+/g, ""); //regex to get string of the cost without the '$' sign.
+        const cost = parseInt($activityCost, 10); //cost converts string to number with base of 10. 
+
+        //conditional statement to check 
+        if ($(isClicked).prop("checked") === true) {
+            totalActivityCost += cost;
+            $('#total-cost').text(`Total: $${totalActivityCost}`);
+        } else {
+            totalActivityCost -= cost;
+            $('#total-cost').text(`Total: $${totalActivityCost}`);
+        }
+    });
+
+
+    /*-----------------------------"Register for Activities" checkbox section-----------------------------*/
 });
