@@ -91,6 +91,9 @@ $(document).ready(function () {
     /*-----------------------------"T-Shirt Info" dropdown section-----------------------------*/
 
     /*-----------------------------"Register for Activities" checkbox section-----------------------------*/
+
+    /*-------Updating and displaying the total activity cost--------*/
+
     // initializing variable totalActivityCost = 0
     let totalActivityCost = 0;
 
@@ -98,6 +101,7 @@ $(document).ready(function () {
     $('.activities').append(`<span id="total-cost">Total: $${totalActivityCost}</span>`); //`<span id="total-cost">${totalActivityCost}</span>`
 
     // attaching a change event listener to "Register for Activities" fieldset.
+    //The event listener does two operations 1) Updating and displaying the total activity cost.
 
     $('.activities').on('change', function (event) {
         const isClicked = event.target; //to get the element where the change has happened.
@@ -106,7 +110,7 @@ $(document).ready(function () {
             .replace(/[^0-9.-]+/g, ""); //regex to get string of the cost without the '$' sign.
         const cost = parseInt($activityCost, 10); //cost converts string to number with base of 10. 
 
-        //conditional statement to check 
+        //conditional statement to check if an activity checkbox is checked or unchecked.
         if ($(isClicked).prop("checked") === true) {
             totalActivityCost += cost;
             $('#total-cost').text(`Total: $${totalActivityCost}`);
@@ -114,7 +118,31 @@ $(document).ready(function () {
             totalActivityCost -= cost;
             $('#total-cost').text(`Total: $${totalActivityCost}`);
         }
+        /*-------Updating and displaying the total activity cost--------*/
+
+        /*-------Disabling conflicting activities--------*/
+
+
+        const checkboxes = document.querySelectorAll('.activities input'); //assigning an HTMLCollection object which has all the activities checkboxes to the variable `checkboxes`.
+        const $activityDateTime = $(isClicked)
+            .attr('data-day-and-time'); //getting the "data-day-and-time" attribute of the clicked checkbox and assigning it to the variable `$activityDateTime`.
+
+        for (let i = 0; i < checkboxes.length; i++) { //looping through all the checkboxes which are stored in variable `checkboxes`
+            const $checkboxDateTime = $(checkboxes[i]).attr('data-day-and-time'); // storing the "data-day-and-time" of the activity checkbox at index = i to the variable $checkboxDateTime.
+
+            //conditional if statement to check if the "data-day-and-time" attribute of the clicked checkbox is same as that in the `$checkboxDateTime` 
+            if ($activityDateTime === $checkboxDateTime && checkboxes[i] !== isClicked) {
+                if ($(isClicked).prop('checked')) { //if the property 'checked' is present on isClicked
+                    $(checkboxes[i]).attr("disabled", true); //disable all the other checkboxes with the same "data-day-and-time" value. 
+                } else { // if the property 'checked' is not present on isClicked 
+                    $(checkboxes[i]).attr("disabled", false); //active all the checkboxes with the same "data-day-and-time" value. 
+                }
+            }
+        }
+
+        /*-------Disabling conflicting activities--------*/
     });
+    /*-------Updating and displaying the total activity cost--------*/
 
 
     /*-----------------------------"Register for Activities" checkbox section-----------------------------*/
