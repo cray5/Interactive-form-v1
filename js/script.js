@@ -40,8 +40,8 @@ $(document).ready(function () {
         .eq(0) //hides the 'Select Theme' option in the "Design" dropdown
         .attr("hidden", true);
 
-    /*creates the default message option 'Please select a T-shirt Theme',
-     and stores it in a variable $colorDefaultMsg*/
+    // creates the default message option 'Please select a T-shirt Theme',
+    // and stores it in a variable $colorDefaultMsg
     const $colorDefaultMsg = $(
         '<option value="defaultMessage">Please select a T-shirt Theme</option>'
     );
@@ -101,7 +101,9 @@ $(document).ready(function () {
     $('.activities').append(`<span id="total-cost">Total: $${totalActivityCost}</span>`); //`<span id="total-cost">${totalActivityCost}</span>`
 
     // attaching a change event listener to "Register for Activities" fieldset.
-    //The event listener does two operations 1) Updating and displaying the total activity cost.
+    //The event listener does two operations:- 
+    //  1) Updating and displaying the total activity cost.
+    //  2) Disabling conflicting activities
 
     $('.activities').on('change', function (event) {
         const isClicked = event.target; //to get the element where the change has happened.
@@ -146,4 +148,40 @@ $(document).ready(function () {
 
 
     /*-----------------------------"Register for Activities" checkbox section-----------------------------*/
+
+    /*-------------------------------------------Payment section-------------------------------------------*/
+    // when the page loads to show only the "Credit card" paymnet div, the "paypal" div and the "bitcoin" div are to be hidden 
+    $('#paypal').hide(); //hiding the "paypal" div
+    $('#bitcoin').hide(); //hiding the "bitcoin" div
+    $('#payment option[value="select method"]').hide(); //hiding the 'Select Payment Method' option in the dropdown
+
+    // attaching a change event listener on the payment dropdown, 
+    // so that the correct payment div is displayed according to the selected payment method.
+    $('#payment').on('change', (event) => {
+        const isSelected = event.target;
+        const paymentMethod = isSelected.value; //the value attribute of the selected payment method 
+        if (paymentMethod === "Credit Card") {
+            $('#credit-card').show();
+            $('#paypal').hide(); // if value attribute === "Credit Card", hide the "paypal" and "bitcoin" div
+            $('#bitcoin').hide();
+        } else if (paymentMethod === "PayPal") {
+            $('#credit-card').hide();
+            $('#paypal').show(); // if value attribute === "PayPal", hide the "Credit Card" and "bitcoin" div
+            $('#bitcoin').hide();
+        } else {
+            $('#credit-card').hide();
+            $('#paypal').hide(); // if value attribute === "bitcoin", hide the "paypal" and "Credit Card" div 
+            $('#bitcoin').show();
+        }
+    });
+
+    /*-------------------------------------------Payment section-------------------------------------------*/
+
+    /*-----------------------------"Form Validation and Validation Messages-----------------------------*/
+
+
+
+
+
+    /*-----------------------------"Form Validation and Validation Messages-----------------------------*/
 });
