@@ -41,7 +41,7 @@ i) Real-time error messages and validation are on the following fields:- - Name 
 
 ii) Submit error messages are on the following fields:- - Name Text Input. - Email Text Input. - Other Job Role Text Input. - Register for Activities Checkbox - Credit Number Text Input. - Zip Code Text Input. - CVV Text Input.
 
------------------------------------Acknowledgements----------------------------
+----------------------------------------------------Acknowledgements----------------------------------------------------------
 for:- Parts of showOrHideTip() and createListener() function and idea for some CSS styling.
 
 
