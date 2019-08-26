@@ -75,18 +75,6 @@ legend {
 	width: 100%;
 }
 
-.errormsg {
-	border-radius: 5px;
-	font-size: 1.3em;
-	text-align: center;
-	position: absolute;
-	background: #2F558E;
-	left: 105%;
-	top: 25px;
-	width: 160px;
-	padding: 7px 10px;
-	color: #fff;
-}
 
 label {
 	color: #111;
@@ -120,17 +108,31 @@ input[type="radio"] {
 	display: inline-block;
 }
 
+/* Kraft, J. Regular Expressions in JavaScript[snippet]www.teamtreehouse.com. */
 .error {
-	border: 1px solid #db3838;
+	border: 2px solid #db3838;
 	border-radius: 1em;
 	padding: 1em;
 	background: #ffe5e9;
+	color: red;
+	outline: none;
 }
 
-.error {
+/* Kraft, J. Regular Expressions in JavaScript[snippet]www.teamtreehouse.com. */
+.error-text {
 	color: red;
 }
 
+.submit-error {
+	font-size: 1em;
+	font-weight: 500;
+	border: 2px solid #db3838;
+	border-radius: 1em;
+	padding: 1em;
+	background: #ffe5e9;
+	color: red;
+	outline: none;
+}
 
 span:before {
 	right: 100%;

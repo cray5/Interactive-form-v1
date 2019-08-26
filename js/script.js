@@ -1,6 +1,27 @@
 /*
     Project: Interactive form.
     Author: Chintan Ray.
+    note:- 
+    
+    Real-time error messages and validation are on the following fields:-
+    - Name Text Input.
+    - Email Text Input.
+    - Other Job Role Text input.
+    - Credit Number Text Input.
+    - Zip Code Text Input.
+    - CVV Text Input.
+
+    Submit error messages are on the following fields:-
+     - Name Text Input.
+    - Email Text Input.
+    - Other Job Role Text Input.
+    - Register for Activities Checkbox
+    - Credit Number Text Input.
+    - Zip Code Text Input.
+    - CVV Text Input.
+
+
+        
 */
 
 
@@ -37,7 +58,8 @@ $(document).ready(function () {
 
     $("#design option")
         .eq(0) //hides the 'Select Theme' option in the "Design" dropdown
-        .attr("hidden", true);
+        .attr("disabled", true)
+        .attr("hidden", false);
 
     // creates the default message option 'Please select a T-shirt Theme',
     // and stores it in a variable $colorDefaultMsg
@@ -205,7 +227,7 @@ $(document).ready(function () {
 
     //III.) for credit card number input
     const creditCardNumInput = document.querySelector('#cc-num');
-    const CardNumError = (`<span id='CardNum-error'>Enter a Card Number between 13-15 digits.(only numbers allowed.)</span>`);
+    const CardNumError = (`<span id='CardNum-error'>Enter a Card Number between 13-16 digits.(only numbers allowed.)</span>`);
     $("#cc-num").after(CardNumError);
     $("#CardNum-error").hide();
 
@@ -253,6 +275,8 @@ $(document).ready(function () {
     function isValidName(name) {
         return /^[a-z]+$/.test(name); //regex for validating Name Input.
     };
+
+    console.log($('#name').text().length);
     nameInput.addEventListener("input", createListener(isValidName, '#name-error'));
     //input listener to check and verify input simultaneously while user updates the text field.
 
@@ -313,21 +337,41 @@ $(document).ready(function () {
         const errorMessageMail = $('<span id = "error-msg-mail">Please enter a valid Email ID.</span>');
         var email = $("#mail").val().length;
         if (email === 0) {
-            $('#mail').addClass('error');
+            $('#mail').addClass('submit-error');
             $('#mail').before(errorMessageMail);
             $('#error-msg-mail').css({
                 'color': 'red'
             });
         } else {
-            $('#mail').removeClass('error');
+            $('#mail').removeClass('submit-error');
             $('#error-msg-mail').hide();
             $('#error-msg-mail').css({
                 'color': '#111'
             });
         }
+
+        if ($('#name').text().length === 0) {
+            const submitName = (`<span id='submit-name'>Please enter a valid name</span>`);
+            $(nameInput).before(submitName);
+            $(nameInput).addClass('submit-error');
+            $('#submit-name').css({
+                'color': 'red'
+            });
+        }
+
+        if ($('#cc-num').text().length || $('#zip').text().length || $('#cvv').text().length === 0) {
+            const submitCC = (`<span id='submit-cc'>Please enter valid credit card details.</span>`);
+            $('#credit-card').before(submitCC);
+            $(creditCardNumInput).addClass('submit-error');
+            $(creditCardZipInput).addClass('submit-error');
+            $(creditCardCvvInput).addClass('submit-error');
+            $('#submit-cc').css({
+                'color': 'red'
+            });
+        }
     });
-    /*Submit listener to check if email has been typed  **[only when the form is submitted ]**
-    it inserts the "error" class on the email input element, and a span with error message when no email has been provided */
+    /*Submit listener to check if Name, Email, Credit-card number, Zip, and CVV  has been entered  **[only when the form is submitted ]**
+    it inserts the "submit-error" class on respective input element, and a span with error message when no input text has been provided */
 
     const designDropDownOption = $('#design option'); //the theme options in the design dropdown are stored in designDropDownOption 
     const colorDropdownDiv = $('#colors-js-puns'); //the div in which the color dropdown is located are stored in colorDropdownDiv
