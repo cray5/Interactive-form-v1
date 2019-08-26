@@ -1,7 +1,6 @@
 /*
     Project: Interactive form.
     Author: Chintan Ray.
-
 */
 
 
@@ -45,11 +44,13 @@ $(document).ready(function () {
     const $colorDefaultMsg = $(
         '<option value="defaultMessage">Please select a T-shirt Theme</option>'
     );
+
     $("#color").prepend($colorDefaultMsg); //   appends the `$colorDefaultMsg` option to the "color" dropdown.
     $("#color option").attr("hidden", true); // hides all the options present in the "color" dropdown.
     $("#color option[value='defaultMessage']")
         .attr("selected", true) // the option created by appending `$colorDefaultMsg` is unhidden,
         .attr("hidden", false); // and it's "selected" attribute is set true.
+
 
     // A change event listener is set on the "Design" dropdown
     $("#design").change(function (event) {
@@ -179,9 +180,175 @@ $(document).ready(function () {
 
     /*-----------------------------"Form Validation and Validation Messages-----------------------------*/
 
+    // function formValidation
 
 
+    const nameInput = document.querySelector('#name'); //selecting the Name input element, so we can use the user text input to validate the data provided. 
+    const nameError = (`<span id='name-error'>Can only contain letters a-z in lower case.</span>`); //error message to be displayed in case of invalid data.
+    $("#name").after(nameError); //inserting the error message to be display after the Name input element.
+    $("#name-error").hide(); //hiding the error message span element.
 
+    //[I, II, III, IV, and V] that follow have the same function as the one commented above, but I unfortunately, have not been able to refractor them,
+    //as the eventListener that come after are dependant on the variables initialized here.
+
+    //I.) for Email Input
+    const emailInput = document.querySelector('#mail');
+    const emailError = (`<span id='email-error'>Enter a valid Email ID (e.g. john.smith@regex.com.)</span>`);
+    $("#mail").after(emailError);
+    $("#email-error").hide();
+
+    //II.) for Other Job title Input
+    const otherJobRoleInput = document.querySelector('#other-title');
+    const otherTitleError = (`<span id='other-title-error'>Please enter your Job Role.</span>`);
+    $("#other-title").after(otherTitleError);
+    $("#other-title-error").hide();
+
+    //III.) for credit card number input
+    const creditCardNumInput = document.querySelector('#cc-num');
+    const CardNumError = (`<span id='CardNum-error'>Enter a Card Number between 13-15 digits.(only numbers allowed.)</span>`);
+    $("#cc-num").after(CardNumError);
+    $("#CardNum-error").hide();
+
+    //IV.) for credit card zip input 
+    const creditCardZipInput = document.querySelector('#zip');
+    const zipError = (`<span id='zip-error'>Enter a Zip Code between 4-5 digits.(only numbers allowed.)</span>`);
+    $("#zip").after(zipError);
+    $("#zip-error").hide();
+
+    //V.)for credit card cvv input
+    const creditCardCvvInput = document.querySelector('#cvv');
+    const cvvError = (`<span id='cvv-error'>Can only 3 digits.(only numbers allowed.)</span>`);
+    $("#cvv").after(cvvError);
+    $("#cvv-error").hide();
+
+
+    //Kraft, J. Regular Expressions in JavaScript[snippet]www.teamtreehouse.com.
+    function showOrHideTip(show, element, spanIdToHide) {
+        // show element when show is true, hide when false
+        if (show) {
+            element.style.display = "inherit";
+            element.previousElementSibling.classList.add('error');
+            element.classList.add('error');
+            $(spanIdToHide).show();
+        } else {
+            element.style.display = "none";
+            element.previousElementSibling.classList.remove('error');
+            $(spanIdToHide).hide();
+            element.classList.remove('error');
+        }
+    }
+
+    //Kraft, J. Regular Expressions in JavaScript[snippet]www.teamtreehouse.com.
+    function createListener(validator, spanIdToHide) {
+        return e => {
+            const text = e.target.value;
+            const valid = validator(text);
+            const showTip = text !== "" && !valid;
+            const tooltip = e.target.nextElementSibling;
+            showOrHideTip(showTip, tooltip, spanIdToHide);
+        };
+    }
+
+    //1.)
+    function isValidName(name) {
+        return /^[a-z]+$/.test(name); //regex for validating Name Input.
+    };
+    nameInput.addEventListener("input", createListener(isValidName, '#name-error'));
+    //input listener to check and verify input simultaneously while user updates the text field.
+
+    //2.)
+    function isValidEmail(email) {
+        return /^[^@]+@[^@.]+\.[a-z]+$/i.test(email); //regex for validating Email Input.
+    };
+    emailInput.addEventListener("input", createListener(isValidEmail, "#email-error"));
+    //input listener to check and verify input simultaneously while user updates the text field.
+
+    //3.)
+    function isValidOtherJobRole(otherJobRole) {
+        return /^[a-z -]+$/i.test(otherJobRole); //regex for validating "other job title" Input.
+    };
+    if ($("#other-title").attr('display') !== 'none') {
+        otherJobRoleInput.addEventListener("input", createListener(isValidOtherJobRole, "#other-title-error"));
+    }
+    //input listener to check and verify input simultaneously while user updates the text field **[only when the "other job title" input is visible]**
+
+    //4.)
+    function isValidCCardNum(ccardnum) {
+        return /^[0-9]{13}[0-9]?[0-9]?[0-9]?$/.test(ccardnum); //regex for credit card number Input.
+    };
+
+    //5.)
+    function isValidCCardZip(ccardzip) {
+        return /^[0-9]{4}[0-9]?$/.test(ccardzip); //regex for credit card Zip Input.
+    };
+
+    //6.)
+    function isValidCCardCvv(ccardcvv) {
+        return /^[0-9]{3}$/.test(ccardcvv); //regex for credit card CVV Input.
+    };
+    if ($('#credit-card').attr('display') !== 'none') {
+        creditCardNumInput.addEventListener("input", createListener(isValidCCardNum, "#CardNum-error"));
+        creditCardZipInput.addEventListener("input", createListener(isValidCCardZip, "#zip-error"));
+        creditCardCvvInput.addEventListener("input", createListener(isValidCCardCvv, "#cvv-error"));
+    };
+    //input listener to check and verify input simultaneously while user updates the text field **[only when the "Credit card" payment option is checked]**
+
+    $("form").on('submit change', function (event) {
+        event.preventDefault();
+        const errorMessageActivities = $('<span id = "error-msg-activities">Select at least one Event.</span>')
+        var checked = $(".activities input:checked").length > 0;
+        if (!checked) {
+            $('.activities').addClass('error');
+            $('.activities').prepend(errorMessageActivities)
+        } else {
+            $('.activities').removeClass('error');
+            $('error-msg-activities').hide();
+        }
+    });
+    /*Submit and change listener to check if at least one activities checkbox is selected  **[only when the form is submitted or updated]**
+    it inserts the "error" class in the activities fieldset,and a span with error message when no checkbox is selected */
+
+    $("form").on('submit', function (event) {
+        event.preventDefault();
+        const errorMessageMail = $('<span id = "error-msg-mail">Please enter a valid Email ID.</span>');
+        var email = $("#mail").val().length;
+        if (email === 0) {
+            $('#mail').addClass('error');
+            $('#mail').before(errorMessageMail);
+            $('#error-msg-mail').css({
+                'color': 'red'
+            });
+        } else {
+            $('#mail').removeClass('error');
+            $('#error-msg-mail').hide();
+            $('#error-msg-mail').css({
+                'color': '#111'
+            });
+        }
+    });
+    /*Submit listener to check if email has been typed  **[only when the form is submitted ]**
+    it inserts the "error" class on the email input element, and a span with error message when no email has been provided */
+
+    const designDropDownOption = $('#design option'); //the theme options in the design dropdown are stored in designDropDownOption 
+    const colorDropdownDiv = $('#colors-js-puns'); //the div in which the color dropdown is located are stored in colorDropdownDiv
+    colorDropdownDiv.css({
+        'display': 'none' //the color dropdown and label are hidden i.e there display property has been set equal to 'none'
+    });
+
+    $('#design').on('change', function () {
+        for (let i = 0; i < designDropDownOption.length; i++) {
+            if ($(designDropDownOption).eq(i).text() === "Select Theme") {
+                colorDropdownDiv.css({
+                    'display': 'none'
+                })
+            } else {
+                colorDropdownDiv.css({
+                    'display': 'block'
+                })
+            }
+        }
+    });
+    /*change listener to show the color option div and dropdown **[only when the design dropdown has a theme selected]**/
 
     /*-----------------------------"Form Validation and Validation Messages-----------------------------*/
 });

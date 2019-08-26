@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito|Roboto+Mono');
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body,
@@ -14,14 +14,15 @@ button {
 	font-family: 'Nunito', sans-serif;
 }
 
+/* rgba(6, 49, 68, 0.9) */
 body {
-  font: 1em/1.5;
-  color: rgba(6, 49, 68, 0.9);
-	background: #CDE0FB;
+	font: 1em/1.5;
+	color: #f39c12;
+	background: #384047;
 }
 
 header {
-	text-align: center;  
+	text-align: center;
 }
 
 h1 {
@@ -31,7 +32,7 @@ h1 {
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 /* ================================= 
@@ -40,9 +41,9 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #9BBEEF;
-	border: 2px solid rgba(8, 63, 87, 0.7);
-	border-radius: 3px;
+	background: #fff;
+	border: 2px solid #e5c454;
+	border-radius: 15px;
 }
 
 fieldset,
@@ -58,13 +59,13 @@ fieldset {
 
 legend,
 button {
-	font-size: 1.25em;	
+	font-size: 1.25em;
 }
 
 legend {
 	font-weight: bold;
 	padding-top: .5em;
-	border-top: 2px solid rgba(8, 63, 87, 0.6);
+	border-top: 2px solid rgba(33, 33, 33, 0.5);
 	margin-bottom: 1.125em;
 }
 
@@ -74,30 +75,43 @@ legend {
 	width: 100%;
 }
 
+.errormsg {
+	border-radius: 5px;
+	font-size: 1.3em;
+	text-align: center;
+	position: absolute;
+	background: #2F558E;
+	left: 105%;
+	top: 25px;
+	width: 160px;
+	padding: 7px 10px;
+	color: #fff;
+}
+
 label {
-	color: #000;
+	color: #111;
 	display: block;
 	margin-bottom: .5em;
 }
 
 input,
 select {
-	margin-bottom: 1.125em;	
+	margin-bottom: 1.125em;
 }
 
 input {
 	font-size: 1em;
 	font-weight: 500;
 	padding: .8em;
-	background: #e9f6fb;
-	border: 2px solid #6F9DDC;
-	border-radius: 3px;
+	background: #DEF2F1;
+	border: 2px solid #706f6c;
+	border-radius: 25px;
 	outline: none;
 }
 
 input:focus {
-	background: #fff;
-	border-color: #5e97b0;
+	background: rgb(240, 228, 164);
+	border-color: #5696e9;
 	transition: border-color .4s, background-color .4s;
 }
 
@@ -106,10 +120,38 @@ input[type="radio"] {
 	display: inline-block;
 }
 
+.error {
+	border: 1px solid #db3838;
+	border-radius: 1em;
+	padding: 1em;
+	background: #ffe5e9;
+}
+
+.error {
+	color: red;
+}
+
+
+span:before {
+	right: 100%;
+	top: 50%;
+	display: inline;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(136, 183, 213, 0);
+	border-right-color: #2F558E;
+	border-width: 8px;
+	margin-top: -8px;
+}
+
 button {
-	color: #fff;
+	color: #111;
 	padding: .55em 1.25em;
-	background: #083f57;
+	background: #F79E02;
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
 	border: 2px solid black;
@@ -118,11 +160,11 @@ button {
 }
 
 button:hover {
-	background: #6F9DDC;
+	background: rgb(238, 167, 44);
 }
 
-input, 
-select, 
+input,
+select,
 option {
 	font-family: 'roboto', sans-serif;
 }
@@ -158,9 +200,9 @@ option {
 }
 
 .clearfix::after {
-  content: " ";
-  display: table;
-  clear: both;
+	content: " ";
+	display: table;
+	clear: both;
 }
 
 /* ================================= 
@@ -171,6 +213,7 @@ option {
 	header {
 		padding: 2em 0;
 	}
+
 	button {
 		width: 100%;
 	}
@@ -180,15 +223,19 @@ option {
 	header {
 		padding: 4.65em 0 2.5em;
 	}
+
 	.col {
 		float: left;
 	}
-	.col + .col {
+
+	.col+.col {
 		margin-left: 2.5%;
 	}
+
 	.col-3 {
 		width: 23%;
 	}
+
 	.col-6 {
 		width: 49%;
 	}
