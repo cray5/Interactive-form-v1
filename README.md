@@ -1,7 +1,7 @@
 # Interactive-form-v1
 
-                            Project: Interactive form.
-                               Author: Chintan Ray.
+                                                Project: Interactive form.
+                                                   Author: Chintan Ray.
 
 In this project, JavaScript and the popular jQuery library have been used to enhance an interactive registration form for a fictional conference called "FullStack Conf."
 
@@ -45,7 +45,6 @@ ii) Submit error messages are on the following fields:- - Name Text Input. - Ema
 for:- Parts of showOrHideTip() and createListener() function and idea for some CSS styling.
 
 Kraft, J.,Regular Expressions in JavaScript[snippet]www.teamtreehouse.com
-reset.css
 
 for:- css/reset file.
 Mayer. E,A.,css/reset[v2.0-modified | 20110126],License: none (public domain),http://meyerweb.com/eric/tools/css/reset/
