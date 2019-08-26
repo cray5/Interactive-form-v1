@@ -293,7 +293,7 @@ $(document).ready(function () {
     };
     //input listener to check and verify input simultaneously while user updates the text field **[only when the "Credit card" payment option is checked]**
 
-    $("form").on('submit change', function (event) {
+    $("form").on('submit', function (event) {
         event.preventDefault();
         const errorMessageActivities = $('<span id = "error-msg-activities">Select at least one Event.</span>')
         var checked = $(".activities input:checked").length > 0;
@@ -305,7 +305,7 @@ $(document).ready(function () {
             $('error-msg-activities').hide();
         }
     });
-    /*Submit and change listener to check if at least one activities checkbox is selected  **[only when the form is submitted or updated]**
+    /*Submit listener to check if at least one activities checkbox is selected  **[only when the form is submitted]**
     it inserts the "error" class in the activities fieldset,and a span with error message when no checkbox is selected */
 
     $("form").on('submit', function (event) {
