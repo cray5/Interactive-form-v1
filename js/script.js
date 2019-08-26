@@ -18,10 +18,7 @@
     - Register for Activities Checkbox
     - Credit Number Text Input.
     - Zip Code Text Input.
-    - CVV Text Input.
-
-
-        
+    - CVV Text Input.       
 */
 
 
