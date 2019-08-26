@@ -44,6 +44,7 @@ ii) Submit error messages are on the following fields:- - Name Text Input. - Ema
 -----------------------------------Acknowledgements----------------------------
 for:- Parts of showOrHideTip() and createListener() function and idea for some CSS styling.
 
+
 Kraft, J.,Regular Expressions in JavaScript[snippet]www.teamtreehouse.com
 
 for:- css/reset file.
