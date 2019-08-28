@@ -20,8 +20,7 @@ i) Hide the "Color" label and select menu until a T-Shirt design is selected fro
 ii) Until a theme is selected from the “Design” menu, no color options appear in the “Color” drop down and the “Color” field reads “Please select a T-shirt theme”.
 
 iii) For the T-Shirt "Color" menu, after a user selects a theme, only display the color options that match the design selected in the "Design" menu.
-adding customized and conditional behavior and interactivity
-validating user input and providing helpful error messages when the user enters invalid information into the form fields.
+
 
 iv) When a new theme is selected from the "Design" menu, both the "Color" field and drop down menu is updated.
 
