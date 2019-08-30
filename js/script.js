@@ -23,7 +23,7 @@
 
 // $(document).ready() is used to wrap the script, so that the javascript is executed only when the document is completely loaded in the DOM.
 
-$(document).ready(function () {
+$(document).ready(function() {
   /*-----------------------------"Name" Text input section-----------------------------*/
   $("#name").focus(); // bring the focus i.e the text cursor on the Name field as soon the script is executed
 
@@ -35,7 +35,7 @@ $(document).ready(function () {
   // A conditional switch statement is used to display the text input with id='other-title',
   // if the 'other' job option is selected in the job role the text input is displayed other wise it is hidden.
 
-  $("#title").change(function (event) {
+  $("#title").change(function(event) {
     switch (this.value === "other") {
       case true:
         $("#other-title").show();
@@ -69,7 +69,7 @@ $(document).ready(function () {
     .attr("hidden", false); // and it's "selected" attribute is set true.
 
   // A change event listener is set on the "Design" dropdown
-  $("#design").change(function (event) {
+  $("#design").change(function(event) {
     function optionDisplayer(index, isSelected, isHidden, isDisabled) {
       const option = $("#color option") //   function optionDisplayer is used to display the dropdown options in the "color".
         .eq(index) //                      it takes 4 arguments:-  1) index: the index of the option in the dropdown(integer starting with 0).
@@ -121,7 +121,7 @@ $(document).ready(function () {
   //  1) Updating and displaying the total activity cost.
   //  2) Disabling conflicting activities
 
-  $(".activities").on("change", function (event) {
+  $(".activities").on("change", function(event) {
     const isClicked = event.target; //to get the element where the change has happened.
     const $activityCost = $(isClicked) //to find the activity cost of the clicked element.
       .attr("data-cost") //to find the `data-cost` attribute of the clicked element.
@@ -172,7 +172,9 @@ $(document).ready(function () {
   // when the page loads to show only the "Credit card" paymnet div, the "paypal" div and the "bitcoin" div are to be hidden
   $("#paypal").hide(); //hiding the "paypal" div
   $("#bitcoin").hide(); //hiding the "bitcoin" div
-  $('#payment option[value="select method"]').attr("disabled", true).attr('selected', false); //hiding the 'Select Payment Method' option in the dropdown
+  $('#payment option[value="select method"]')
+    .attr("disabled", true)
+    .attr("selected", false); //hiding the 'Select Payment Method' option in the dropdown
   $('#payment option[value="Credit Card"]').attr("selected", true);
 
   // attaching a change event listener on the payment dropdown,
@@ -329,95 +331,136 @@ $(document).ready(function () {
   }
   //input listener to check and verify input simultaneously while user updates the text field **[only when the "Credit card" payment option is checked]**
 
-  /*Submit listener to check if at least one activities checkbox is selected  **[only when the form is submitted]**
-  it inserts the "error" class in the activities fieldset,and a span with error message when no checkbox is selected */
-  $("form").on("submit", function (event) {
-    event.preventDefault();
-    const errorMessageActivities = $(
-      '<span id = "error-msg-activities">- Select at least one Event.</span><br>'
-    );
-    var checked = $(".activities input:checked").length > 0;
-    if (!checked) {
-      $(".activities").addClass("error");
-      $(".activities").prepend(errorMessageActivities);
-    } else {
-      $(".activities").removeClass("error");
-      $("error-msg-activities").hide();
-    }
+  /*submit time error messages added before the respective input elements, they are hidden at the start, 
+  and only became visible if the input field is left empty  */
+
+  //name input
+  const submitName = `<br><span id='submit-name'>Please enter a valid name</span>`;
+  $(nameInput).before(submitName);
+  $("#submit-name").css({
+    color: "red" //error message for name input hidden to begin with, to be displayed, only if left empty during from submit.
   });
+  $("#submit-name").hide();
 
-  /*Submit listener to check if Name, Email, Credit-card number, Zip, and CVV  has been entered  **[only when the form is submitted ]**
-  it inserts the "submit-error" class on respective input element, and a span with error message when no input text has been provided */
+  //email input
+  const errorMessageMail = $(
+    '<br><span id = "error-msg-mail">Please enter a valid Email ID.</span>'
+  );
+  $("#mail").before(errorMessageMail); //error message for email input hidden to begin with, to be displayed, only if left empty during from submit.
+  $("#error-msg-mail").css({
+    color: "red"
+  });
+  $("#error-msg-mail").hide();
 
-  $("form").on("submit", function (event) {
-    event.preventDefault();
-    const errorMessageMail = $(
-      '<br><span id = "error-msg-mail">Please enter a valid Email ID.</span>'
-    );
+  //activities checkboxes
+  const errorMessageActivities = $(
+    '<span id = "error-msg-activities">- Select at least one Event.</span><br>'
+  );
+  $(".activities").prepend(errorMessageActivities); //error message for activities checkbox hidden to begin with, to be displayed,
+  $("#error-msg-activities").hide(); // only if nothing is selected during from submit.
+
+  //credit card number input
+  const submitCCNum = `<br><span id='submit-ccnum'>- Please enter valid Credit Card Number.</span>`;
+  $("#credit-card").before(submitCCNum);
+  $("#submit-ccnum").css({
+    //error message for credit card number input hidden to begin with, to be displayed, only if left empty during from submit.
+    color: "red"
+  });
+  $("#submit-ccnum").hide();
+
+  //Zip input
+  const submitZip = `<br><span id='submit-zip'>- Please enter valid Zip Code.</span>`;
+  $("#credit-card").before(submitZip); //error message for zip input hidden to begin with, to be displayed, only if left empty during from submit.
+  $("#submit-zip").css({
+    color: "red"
+  });
+  $("#submit-zip").hide();
+
+  //credit card cvv input
+  const submitCvv = `<br><span id='submit-cvv'>- Please enter valid Credit Card CVV.</span>`;
+  $("#credit-card").before(submitCvv); //error message for credit card CVV input hidden to begin with, to be displayed, only if left empty during from submit.
+  $("#submit-cvv").css({
+    color: "red"
+  });
+  $("#submit-cvv").hide();
+
+  /*
+  - Submit listener to check if Name, Email, Credit-card number, Zip, and CVV  has been entered  **[only when the form is submitted ]**
+  it inserts the "submit-error" class on respective input element, and a span with error message when no input text has been provided 
+  - Submit listener also checks, if at least one activities checkbox is selected  **[only when the form is submitted]**
+  it inserts the "error" class in the activities fieldset,and a span with error message when no checkbox is selected
+  */
+
+  $("form").on("submit", function(event) {
+    //name input
+    if ($("#name").val().length === 0) {
+      event.preventDefault();
+      $(nameInput).addClass("submit-error");
+      $("#submit-name").show();
+    } else {
+      $(nameInput).removeClass("submit-error");
+      $("#submit-name").hide();
+    }
+
+    //email input
     var email = $("#mail").val().length;
     if (email === 0) {
+      event.preventDefault();
       $("#mail").addClass("submit-error");
-      $("#mail").before(errorMessageMail);
-      $("#error-msg-mail").css({
-        color: "red"
-      });
+      $("#error-msg-mail").show();
     } else {
       $("#mail").removeClass("submit-error");
       $("#error-msg-mail").hide();
-      $("#error-msg-mail").css({
-        color: "#111"
-      });
     }
 
-    if ($("#name").val().length === 0) {
-      const submitName = `<br><span id='submit-name'>Please enter a valid name</span>`;
-      $(nameInput).before(submitName);
-      $(nameInput).addClass("submit-error");
-      $("#submit-name").css({
-        color: "red"
-      });
+    //activities checkbox
+    var checked = $(".activities input:checked").length > 0;
+    if (!checked) {
+      event.preventDefault();
+      $(".activities").addClass("error");
+      $("#error-msg-activities").show();
     } else {
-      $("nameInput").removeClass("submit-error");
-      $("#submit-name").hide();
-      $("#submit-name").css({
-        color: "#111"
-      });
+      $(".activities").removeClass("error");
+      $("#error-msg-activities").hide();
     }
 
+    //credit card number input
     if (
       $("#payment option:selected").val() === "Credit Card" &&
       $("#cc-num").val().length === 0
     ) {
-      const submitCCNum = `<br><span id='submit-ccnum'>- Please enter valid Credit Card Number.</span>`;
-      $("#credit-card").before(submitCCNum);
+      event.preventDefault();
       $(creditCardNumInput).addClass("submit-error");
-      $("#submit-ccnum").css({
-        color: "red"
-      });
+      $("#submit-ccnum").show();
+    } else {
+      $(creditCardNumInput).removeClass("submit-error");
+      $("#submit-ccnum").hide();
     }
 
+    //Zip input
     if (
       $("#payment option:selected").val() === "Credit Card" &&
       $("#zip").val().length === 0
     ) {
-      const submitZip = `<br><span id='submit-zip'>- Please enter valid Zip Code.</span>`;
-      $("#credit-card").before(submitZip);
+      event.preventDefault();
       $(creditCardZipInput).addClass("submit-error");
-      $("#submit-zip").css({
-        color: "red"
-      });
+      $("#submit-zip").show();
+    } else {
+      $(creditCardZipInput).removeClass("submit-error");
+      $("#submit-zip").hide();
     }
 
+    //credit card cvv input
     if (
       $("#payment option:selected").val() === "Credit Card" &&
       $("#cvv").val().length === 0
     ) {
-      const submitCvv = `<br><span id='submit-cvv'>- Please enter valid Credit Card CVV.</span>`;
-      $("#credit-card").before(submitCvv);
+      event.preventDefault();
       $(creditCardCvvInput).addClass("submit-error");
-      $("#submit-cvv").css({
-        color: "red"
-      });
+      $("#submit-cvv").show();
+    } else {
+      $(creditCardCvvInput).removeClass("submit-error");
+      $("#submit-cvv").hide();
     }
   });
 
@@ -428,12 +471,12 @@ $(document).ready(function () {
     display: "none" //the color dropdown and label are hidden i.e there display property has been set equal to 'none'
   });
 
-  $("#design").on("change", function () {
+  $("#design").on("change", function() {
     for (let i = 0; i < designDropDownOption.length; i++) {
       if (
         $(designDropDownOption)
-        .eq(i)
-        .text() === "Select Theme"
+          .eq(i)
+          .text() === "Select Theme"
       ) {
         colorDropdownDiv.css({
           display: "none"
