@@ -23,7 +23,7 @@
 
 // $(document).ready() is used to wrap the script, so that the javascript is executed only when the document is completely loaded in the DOM.
 
-$(document).ready(function() {
+$(document).ready(function () {
   /*-----------------------------"Name" Text input section-----------------------------*/
   $("#name").focus(); // bring the focus i.e the text cursor on the Name field as soon the script is executed
 
@@ -35,7 +35,7 @@ $(document).ready(function() {
   // A conditional switch statement is used to display the text input with id='other-title',
   // if the 'other' job option is selected in the job role the text input is displayed other wise it is hidden.
 
-  $("#title").change(function(event) {
+  $("#title").change(function (event) {
     switch (this.value === "other") {
       case true:
         $("#other-title").show();
@@ -69,7 +69,7 @@ $(document).ready(function() {
     .attr("hidden", false); // and it's "selected" attribute is set true.
 
   // A change event listener is set on the "Design" dropdown
-  $("#design").change(function(event) {
+  $("#design").change(function (event) {
     function optionDisplayer(index, isSelected, isHidden, isDisabled) {
       const option = $("#color option") //   function optionDisplayer is used to display the dropdown options in the "color".
         .eq(index) //                      it takes 4 arguments:-  1) index: the index of the option in the dropdown(integer starting with 0).
@@ -121,7 +121,7 @@ $(document).ready(function() {
   //  1) Updating and displaying the total activity cost.
   //  2) Disabling conflicting activities
 
-  $(".activities").on("change", function(event) {
+  $(".activities").on("change", function (event) {
     const isClicked = event.target; //to get the element where the change has happened.
     const $activityCost = $(isClicked) //to find the activity cost of the clicked element.
       .attr("data-cost") //to find the `data-cost` attribute of the clicked element.
@@ -172,7 +172,8 @@ $(document).ready(function() {
   // when the page loads to show only the "Credit card" paymnet div, the "paypal" div and the "bitcoin" div are to be hidden
   $("#paypal").hide(); //hiding the "paypal" div
   $("#bitcoin").hide(); //hiding the "bitcoin" div
-  $('#payment option[value="select method"]').hide(); //hiding the 'Select Payment Method' option in the dropdown
+  $('#payment option[value="select method"]').attr("disabled", true).attr('selected', false); //hiding the 'Select Payment Method' option in the dropdown
+  $('#payment option[value="Credit Card"]').attr("selected", true);
 
   // attaching a change event listener on the payment dropdown,
   // so that the correct payment div is displayed according to the selected payment method.
@@ -228,7 +229,7 @@ $(document).ready(function() {
 
   //IV.) for credit card zip input
   const creditCardZipInput = document.querySelector("#zip");
-  const zipError = `<span id='zip-error'>Enter a Zip Code between 4-5 digits.(only numbers allowed.)</span>`;
+  const zipError = `<span id='zip-error'>Enter a Zip Code containing exactly 5 digits.(only numbers allowed.)</span>`;
   $("#zip").after(zipError);
   $("#zip-error").hide();
 
@@ -305,7 +306,7 @@ $(document).ready(function() {
 
   //5.)
   function isValidCCardZip(ccardzip) {
-    return /^[0-9]{4}[0-9]?$/.test(ccardzip); //regex for credit card Zip Input.
+    return /^[0-9]{5}$/.test(ccardzip); //regex for credit card Zip Input.
   }
 
   //6.)
@@ -330,7 +331,7 @@ $(document).ready(function() {
 
   /*Submit listener to check if at least one activities checkbox is selected  **[only when the form is submitted]**
   it inserts the "error" class in the activities fieldset,and a span with error message when no checkbox is selected */
-  $("form").on("submit", function(event) {
+  $("form").on("submit", function (event) {
     event.preventDefault();
     const errorMessageActivities = $(
       '<span id = "error-msg-activities">- Select at least one Event.</span><br>'
@@ -348,7 +349,7 @@ $(document).ready(function() {
   /*Submit listener to check if Name, Email, Credit-card number, Zip, and CVV  has been entered  **[only when the form is submitted ]**
   it inserts the "submit-error" class on respective input element, and a span with error message when no input text has been provided */
 
-  $("form").on("submit", function(event) {
+  $("form").on("submit", function (event) {
     event.preventDefault();
     const errorMessageMail = $(
       '<br><span id = "error-msg-mail">Please enter a valid Email ID.</span>'
@@ -427,12 +428,12 @@ $(document).ready(function() {
     display: "none" //the color dropdown and label are hidden i.e there display property has been set equal to 'none'
   });
 
-  $("#design").on("change", function() {
+  $("#design").on("change", function () {
     for (let i = 0; i < designDropDownOption.length; i++) {
       if (
         $(designDropDownOption)
-          .eq(i)
-          .text() === "Select Theme"
+        .eq(i)
+        .text() === "Select Theme"
       ) {
         colorDropdownDiv.css({
           display: "none"
