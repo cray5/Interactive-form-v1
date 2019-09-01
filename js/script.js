@@ -334,13 +334,21 @@ $(document).ready(function() {
   /*submit time error messages added before the respective input elements, they are hidden at the start, 
   and only became visible if the input field is left empty  */
 
-  //name input
-  const submitName = `<br><span id='submit-name'>Please enter a valid name</span>`;
+  //name input error for incorrect value entered during submit
+  const submitName = `<br><span id='submit-name'>Please enter a valid name (only letters from a-z allowed).</span>`;
   $(nameInput).before(submitName);
   $("#submit-name").css({
-    color: "red" //error message for name input hidden to begin with, to be displayed, only if left empty during from submit.
+    color: "red" //error message for name input hidden to begin with, to be displayed, only if incorrect input value is entered at submit.
   });
   $("#submit-name").hide();
+
+  //name input error for empty input during submit
+  const submitNameBlank = `<span id='submit-name-blank'>Name is a required field, cannot be empty</span>`;
+  $("#submit-name").before(submitNameBlank);
+  $("#submit-name-blank").css({
+    color: "red" //error message for name input hidden to begin with, to be displayed, only if left empty during from submit.
+  });
+  $("#submit-name-blank").hide();
 
   //email input
   const errorMessageMail = $(
@@ -392,16 +400,27 @@ $(document).ready(function() {
   */
 
   $("form").on("submit", function(event) {
-    //name input
-    if (
-      /^[a-z]+$/.test($("#name").val()) === false ||
-      $("#name").val().length === 0
-    ) {
+    //name input, if incorrect value is entered
+    if (/^[a-z]+$/.test($("#name").val()) === false) {
       event.preventDefault();
       $(nameInput).addClass("submit-error");
       $("#submit-name").show();
+      $("#submit-name-blank").hide();
     } else {
       $(nameInput).removeClass("submit-error");
+      $("#submit-name").hide();
+      $("#submit-name-blank").hide();
+    }
+
+    //name input, if input is left blank
+    if ($("#name").val().length === 0) {
+      event.preventDefault();
+      $(nameInput).addClass("submit-error");
+      $("#submit-name-blank").show();
+      $("#submit-name").hide();
+    } else {
+      $(nameInput).removeClass("submit-error");
+      $("#submit-name-blank").hide();
       $("#submit-name").hide();
     }
 
