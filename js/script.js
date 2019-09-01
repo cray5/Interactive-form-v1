@@ -23,7 +23,7 @@
 
 // $(document).ready() is used to wrap the script, so that the javascript is executed only when the document is completely loaded in the DOM.
 
-$(document).ready(function () {
+$(document).ready(function() {
   /*-----------------------------"Name" Text input section-----------------------------*/
   $("#name").focus(); // bring the focus i.e the text cursor on the Name field as soon the script is executed
 
@@ -35,7 +35,7 @@ $(document).ready(function () {
   // A conditional switch statement is used to display the text input with id='other-title',
   // if the 'other' job option is selected in the job role the text input is displayed other wise it is hidden.
 
-  $("#title").change(function (event) {
+  $("#title").change(function(event) {
     switch (this.value === "other") {
       case true:
         $("#other-title").show();
@@ -69,7 +69,7 @@ $(document).ready(function () {
     .attr("hidden", false); // and it's "selected" attribute is set true.
 
   // A change event listener is set on the "Design" dropdown
-  $("#design").change(function (event) {
+  $("#design").change(function(event) {
     function optionDisplayer(index, isSelected, isHidden, isDisabled) {
       const option = $("#color option") //   function optionDisplayer is used to display the dropdown options in the "color".
         .eq(index) //                      it takes 4 arguments:-  1) index: the index of the option in the dropdown(integer starting with 0).
@@ -121,7 +121,7 @@ $(document).ready(function () {
   //  1) Updating and displaying the total activity cost.
   //  2) Disabling conflicting activities
 
-  $(".activities").on("change", function (event) {
+  $(".activities").on("change", function(event) {
     const isClicked = event.target; //to get the element where the change has happened.
     const $activityCost = $(isClicked) //to find the activity cost of the clicked element.
       .attr("data-cost") //to find the `data-cost` attribute of the clicked element.
@@ -391,9 +391,12 @@ $(document).ready(function () {
   it inserts the "error" class in the activities fieldset,and a span with error message when no checkbox is selected
   */
 
-  $("form").on("submit", function (event) {
+  $("form").on("submit", function(event) {
     //name input
-    if (/^[a-z]+$/.test($("#name").val()) === false || $("#name").val().length === 0) {
+    if (
+      /^[a-z]+$/.test($("#name").val()) === false ||
+      $("#name").val().length === 0
+    ) {
       event.preventDefault();
       $(nameInput).addClass("submit-error");
       $("#submit-name").show();
@@ -404,7 +407,10 @@ $(document).ready(function () {
 
     //email input
     var emailValue = $("#mail").val();
-    if (/^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue) === false || emailValue.length === 0) {
+    if (
+      /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue) === false ||
+      emailValue.length === 0
+    ) {
       event.preventDefault();
       $("#mail").addClass("submit-error");
       $("#error-msg-mail").show();
@@ -426,8 +432,8 @@ $(document).ready(function () {
 
     //credit card number input
     if (
-      /^[0-9]{13}[0-9]?[0-9]?[0-9]?$/.test($("#cc-num").val()) === false ||
-      ($("#payment option:selected").val() === "Credit Card" &&
+      $("#payment option:selected").val() === "Credit Card" &&
+      (/^[0-9]{13}[0-9]?[0-9]?[0-9]?$/.test($("#cc-num").val()) === false ||
         $("#cc-num").val().length === 0)
     ) {
       event.preventDefault();
@@ -440,8 +446,8 @@ $(document).ready(function () {
 
     //Zip input
     if (
-      /^[0-9]{5}$/.test($("#zip").val()) === false ||
-      ($("#payment option:selected").val() === "Credit Card" &&
+      $("#payment option:selected").val() === "Credit Card" &&
+      (/^[0-9]{5}$/.test($("#zip").val()) === false ||
         $("#zip").val().length === 0)
     ) {
       event.preventDefault();
@@ -454,8 +460,8 @@ $(document).ready(function () {
 
     //credit card cvv input
     if (
-      /^[0-9]{3}$/.test($("#cvv").val()) === false ||
-      ($("#payment option:selected").val() === "Credit Card" &&
+      $("#payment option:selected").val() === "Credit Card" &&
+      (/^[0-9]{3}$/.test($("#cvv").val()) === false ||
         $("#cvv").val().length === 0)
     ) {
       event.preventDefault();
@@ -474,12 +480,12 @@ $(document).ready(function () {
     display: "none" //the color dropdown and label are hidden i.e there display property has been set equal to 'none'
   });
 
-  $("#design").on("change", function () {
+  $("#design").on("change", function() {
     for (let i = 0; i < designDropDownOption.length; i++) {
       if (
         $(designDropDownOption)
-        .eq(i)
-        .text() === "Select Theme"
+          .eq(i)
+          .text() === "Select Theme"
       ) {
         colorDropdownDiv.css({
           display: "none"
